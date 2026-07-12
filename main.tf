@@ -10,10 +10,13 @@ resource "azurerm_managed_devops_pool" "managed_devops_pools" {
   work_folder           = each.value.work_folder
 
   azure_devops_organization {
-    organization {
-      parallelism = each.value.azure_devops_organization.organization.parallelism
-      projects    = each.value.azure_devops_organization.organization.projects
-      url         = each.value.azure_devops_organization.organization.url
+    dynamic "organization" {
+      for_each = each.value.azure_devops_organization.organization
+      content {
+        parallelism = organization.value.parallelism
+        projects    = organization.value.projects
+        url         = organization.value.url
+      }
     }
     dynamic "permission" {
       for_each = each.value.azure_devops_organization.permission != null ? [each.value.azure_devops_organization.permission] : []
@@ -31,11 +34,14 @@ resource "azurerm_managed_devops_pool" "managed_devops_pools" {
   }
 
   virtual_machine_scale_set_fabric {
-    image {
-      aliases               = each.value.virtual_machine_scale_set_fabric.image.aliases
-      buffer                = each.value.virtual_machine_scale_set_fabric.image.buffer
-      id                    = each.value.virtual_machine_scale_set_fabric.image.id
-      well_known_image_name = each.value.virtual_machine_scale_set_fabric.image.well_known_image_name
+    dynamic "image" {
+      for_each = each.value.virtual_machine_scale_set_fabric.image
+      content {
+        aliases               = image.value.aliases
+        buffer                = image.value.buffer
+        id                    = image.value.id
+        well_known_image_name = image.value.well_known_image_name
+      }
     }
     os_disk_storage_account_type = each.value.virtual_machine_scale_set_fabric.os_disk_storage_account_type
     dynamic "security" {
@@ -89,35 +95,35 @@ resource "azurerm_managed_devops_pool" "managed_devops_pools" {
         content {
           all_week_schedule = manual_resource_prediction.value.all_week_schedule
           dynamic "friday_schedule" {
-            for_each = manual_resource_prediction.value.friday_schedule != null ? [manual_resource_prediction.value.friday_schedule] : []
+            for_each = manual_resource_prediction.value.friday_schedule != null ? manual_resource_prediction.value.friday_schedule : []
             content {
               count = friday_schedule.value.count
               time  = friday_schedule.value.time
             }
           }
           dynamic "monday_schedule" {
-            for_each = manual_resource_prediction.value.monday_schedule != null ? [manual_resource_prediction.value.monday_schedule] : []
+            for_each = manual_resource_prediction.value.monday_schedule != null ? manual_resource_prediction.value.monday_schedule : []
             content {
               count = monday_schedule.value.count
               time  = monday_schedule.value.time
             }
           }
           dynamic "saturday_schedule" {
-            for_each = manual_resource_prediction.value.saturday_schedule != null ? [manual_resource_prediction.value.saturday_schedule] : []
+            for_each = manual_resource_prediction.value.saturday_schedule != null ? manual_resource_prediction.value.saturday_schedule : []
             content {
               count = saturday_schedule.value.count
               time  = saturday_schedule.value.time
             }
           }
           dynamic "sunday_schedule" {
-            for_each = manual_resource_prediction.value.sunday_schedule != null ? [manual_resource_prediction.value.sunday_schedule] : []
+            for_each = manual_resource_prediction.value.sunday_schedule != null ? manual_resource_prediction.value.sunday_schedule : []
             content {
               count = sunday_schedule.value.count
               time  = sunday_schedule.value.time
             }
           }
           dynamic "thursday_schedule" {
-            for_each = manual_resource_prediction.value.thursday_schedule != null ? [manual_resource_prediction.value.thursday_schedule] : []
+            for_each = manual_resource_prediction.value.thursday_schedule != null ? manual_resource_prediction.value.thursday_schedule : []
             content {
               count = thursday_schedule.value.count
               time  = thursday_schedule.value.time
@@ -125,14 +131,14 @@ resource "azurerm_managed_devops_pool" "managed_devops_pools" {
           }
           time_zone_name = manual_resource_prediction.value.time_zone_name
           dynamic "tuesday_schedule" {
-            for_each = manual_resource_prediction.value.tuesday_schedule != null ? [manual_resource_prediction.value.tuesday_schedule] : []
+            for_each = manual_resource_prediction.value.tuesday_schedule != null ? manual_resource_prediction.value.tuesday_schedule : []
             content {
               count = tuesday_schedule.value.count
               time  = tuesday_schedule.value.time
             }
           }
           dynamic "wednesday_schedule" {
-            for_each = manual_resource_prediction.value.wednesday_schedule != null ? [manual_resource_prediction.value.wednesday_schedule] : []
+            for_each = manual_resource_prediction.value.wednesday_schedule != null ? manual_resource_prediction.value.wednesday_schedule : []
             content {
               count = wednesday_schedule.value.count
               time  = wednesday_schedule.value.time
@@ -158,35 +164,35 @@ resource "azurerm_managed_devops_pool" "managed_devops_pools" {
         content {
           all_week_schedule = manual_resource_prediction.value.all_week_schedule
           dynamic "friday_schedule" {
-            for_each = manual_resource_prediction.value.friday_schedule != null ? [manual_resource_prediction.value.friday_schedule] : []
+            for_each = manual_resource_prediction.value.friday_schedule != null ? manual_resource_prediction.value.friday_schedule : []
             content {
               count = friday_schedule.value.count
               time  = friday_schedule.value.time
             }
           }
           dynamic "monday_schedule" {
-            for_each = manual_resource_prediction.value.monday_schedule != null ? [manual_resource_prediction.value.monday_schedule] : []
+            for_each = manual_resource_prediction.value.monday_schedule != null ? manual_resource_prediction.value.monday_schedule : []
             content {
               count = monday_schedule.value.count
               time  = monday_schedule.value.time
             }
           }
           dynamic "saturday_schedule" {
-            for_each = manual_resource_prediction.value.saturday_schedule != null ? [manual_resource_prediction.value.saturday_schedule] : []
+            for_each = manual_resource_prediction.value.saturday_schedule != null ? manual_resource_prediction.value.saturday_schedule : []
             content {
               count = saturday_schedule.value.count
               time  = saturday_schedule.value.time
             }
           }
           dynamic "sunday_schedule" {
-            for_each = manual_resource_prediction.value.sunday_schedule != null ? [manual_resource_prediction.value.sunday_schedule] : []
+            for_each = manual_resource_prediction.value.sunday_schedule != null ? manual_resource_prediction.value.sunday_schedule : []
             content {
               count = sunday_schedule.value.count
               time  = sunday_schedule.value.time
             }
           }
           dynamic "thursday_schedule" {
-            for_each = manual_resource_prediction.value.thursday_schedule != null ? [manual_resource_prediction.value.thursday_schedule] : []
+            for_each = manual_resource_prediction.value.thursday_schedule != null ? manual_resource_prediction.value.thursday_schedule : []
             content {
               count = thursday_schedule.value.count
               time  = thursday_schedule.value.time
@@ -194,14 +200,14 @@ resource "azurerm_managed_devops_pool" "managed_devops_pools" {
           }
           time_zone_name = manual_resource_prediction.value.time_zone_name
           dynamic "tuesday_schedule" {
-            for_each = manual_resource_prediction.value.tuesday_schedule != null ? [manual_resource_prediction.value.tuesday_schedule] : []
+            for_each = manual_resource_prediction.value.tuesday_schedule != null ? manual_resource_prediction.value.tuesday_schedule : []
             content {
               count = tuesday_schedule.value.count
               time  = tuesday_schedule.value.time
             }
           }
           dynamic "wednesday_schedule" {
-            for_each = manual_resource_prediction.value.wednesday_schedule != null ? [manual_resource_prediction.value.wednesday_schedule] : []
+            for_each = manual_resource_prediction.value.wednesday_schedule != null ? manual_resource_prediction.value.wednesday_schedule : []
             content {
               count = wednesday_schedule.value.count
               time  = wednesday_schedule.value.time

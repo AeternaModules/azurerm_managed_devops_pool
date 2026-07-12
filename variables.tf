@@ -111,11 +111,11 @@ EOT
     tags                  = optional(map(string))
     work_folder           = optional(string)
     azure_devops_organization = object({
-      organization = object({
+      organization = list(object({
         parallelism = number
         projects    = optional(list(string))
         url         = string
-      })
+      }))
       permission = optional(object({
         administrator_account = optional(object({
           groups = optional(list(string))
@@ -125,12 +125,12 @@ EOT
       }))
     })
     virtual_machine_scale_set_fabric = object({
-      image = object({
+      image = list(object({
         aliases               = optional(list(string))
         buffer                = optional(string) # Default: "*"
         id                    = optional(string)
         well_known_image_name = optional(string)
-      })
+      }))
       os_disk_storage_account_type = optional(string) # Default: "Standard"
       security = optional(object({
         interactive_logon_enabled = optional(bool) # Default: false
@@ -161,35 +161,35 @@ EOT
       grace_period_time_span = optional(string) # Default: "00:00:00"
       manual_resource_prediction = optional(object({
         all_week_schedule = optional(number)
-        friday_schedule = optional(object({
+        friday_schedule = optional(list(object({
           count = number
           time  = string
-        }))
-        monday_schedule = optional(object({
+        })))
+        monday_schedule = optional(list(object({
           count = number
           time  = string
-        }))
-        saturday_schedule = optional(object({
+        })))
+        saturday_schedule = optional(list(object({
           count = number
           time  = string
-        }))
-        sunday_schedule = optional(object({
+        })))
+        sunday_schedule = optional(list(object({
           count = number
           time  = string
-        }))
-        thursday_schedule = optional(object({
+        })))
+        thursday_schedule = optional(list(object({
           count = number
           time  = string
-        }))
+        })))
         time_zone_name = optional(string) # Default: "UTC"
-        tuesday_schedule = optional(object({
+        tuesday_schedule = optional(list(object({
           count = number
           time  = string
-        }))
-        wednesday_schedule = optional(object({
+        })))
+        wednesday_schedule = optional(list(object({
           count = number
           time  = string
-        }))
+        })))
       }))
       maximum_agent_lifetime = optional(string) # Default: "7.00:00:00"
     }))
@@ -199,35 +199,35 @@ EOT
       }))
       manual_resource_prediction = optional(object({
         all_week_schedule = optional(number)
-        friday_schedule = optional(object({
+        friday_schedule = optional(list(object({
           count = number
           time  = string
-        }))
-        monday_schedule = optional(object({
+        })))
+        monday_schedule = optional(list(object({
           count = number
           time  = string
-        }))
-        saturday_schedule = optional(object({
+        })))
+        saturday_schedule = optional(list(object({
           count = number
           time  = string
-        }))
-        sunday_schedule = optional(object({
+        })))
+        sunday_schedule = optional(list(object({
           count = number
           time  = string
-        }))
-        thursday_schedule = optional(object({
+        })))
+        thursday_schedule = optional(list(object({
           count = number
           time  = string
-        }))
+        })))
         time_zone_name = optional(string) # Default: "UTC"
-        tuesday_schedule = optional(object({
+        tuesday_schedule = optional(list(object({
           count = number
           time  = string
-        }))
-        wednesday_schedule = optional(object({
+        })))
+        wednesday_schedule = optional(list(object({
           count = number
           time  = string
-        }))
+        })))
       }))
     }))
   }))
