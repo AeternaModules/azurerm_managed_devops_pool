@@ -1,3 +1,7 @@
+output "managed_devops_pools_id" {
+  description = "Map of id values across all managed_devops_pools, keyed the same as var.managed_devops_pools"
+  value       = { for k, v in azurerm_managed_devops_pool.managed_devops_pools : k => v.id }
+}
 output "managed_devops_pools_azure_devops_organization" {
   description = "Map of azure_devops_organization values across all managed_devops_pools, keyed the same as var.managed_devops_pools"
   value       = { for k, v in azurerm_managed_devops_pool.managed_devops_pools : k => v.azure_devops_organization }
