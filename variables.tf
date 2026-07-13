@@ -127,17 +127,17 @@ EOT
     virtual_machine_scale_set_fabric = object({
       image = list(object({
         aliases               = optional(list(string))
-        buffer                = optional(string) # Default: "*"
+        buffer                = optional(string)
         id                    = optional(string)
         well_known_image_name = optional(string)
       }))
-      os_disk_storage_account_type = optional(string) # Default: "Standard"
+      os_disk_storage_account_type = optional(string)
       security = optional(object({
-        interactive_logon_enabled = optional(bool) # Default: false
+        interactive_logon_enabled = optional(bool)
         key_vault_management = optional(object({
           certificate_store_location = optional(string)
           certificate_store_name     = optional(string)
-          key_export_enabled         = optional(bool) # Default: false
+          key_export_enabled         = optional(bool)
           key_vault_certificate_ids  = list(string)
         }))
       }))
@@ -146,7 +146,7 @@ EOT
         caching              = optional(string)
         disk_size_in_gb      = number
         drive_letter         = optional(string)
-        storage_account_type = optional(string) # Default: "Standard_LRS"
+        storage_account_type = optional(string)
       }))
       subnet_id = optional(string)
     })
@@ -156,9 +156,9 @@ EOT
     }))
     stateful_agent = optional(object({
       automatic_resource_prediction = optional(object({
-        prediction_preference = optional(string) # Default: "Balanced"
+        prediction_preference = optional(string)
       }))
-      grace_period_time_span = optional(string) # Default: "00:00:00"
+      grace_period_time_span = optional(string)
       manual_resource_prediction = optional(object({
         all_week_schedule = optional(number)
         friday_schedule = optional(list(object({
@@ -181,7 +181,7 @@ EOT
           count = number
           time  = string
         })))
-        time_zone_name = optional(string) # Default: "UTC"
+        time_zone_name = optional(string)
         tuesday_schedule = optional(list(object({
           count = number
           time  = string
@@ -191,11 +191,11 @@ EOT
           time  = string
         })))
       }))
-      maximum_agent_lifetime = optional(string) # Default: "7.00:00:00"
+      maximum_agent_lifetime = optional(string)
     }))
     stateless_agent = optional(object({
       automatic_resource_prediction = optional(object({
-        prediction_preference = optional(string) # Default: "Balanced"
+        prediction_preference = optional(string)
       }))
       manual_resource_prediction = optional(object({
         all_week_schedule = optional(number)
@@ -219,7 +219,7 @@ EOT
           count = number
           time  = string
         })))
-        time_zone_name = optional(string) # Default: "UTC"
+        time_zone_name = optional(string)
         tuesday_schedule = optional(list(object({
           count = number
           time  = string
@@ -231,5 +231,21 @@ EOT
       }))
     }))
   }))
+  validation {
+    condition = alltrue([
+      for k, v in var.managed_devops_pools : (
+        length(v.azure_devops_organization.organization) >= 1
+      )
+    ])
+    error_message = "Each organization list must contain at least 1 items"
+  }
+  validation {
+    condition = alltrue([
+      for k, v in var.managed_devops_pools : (
+        length(v.virtual_machine_scale_set_fabric.image) >= 1
+      )
+    ])
+    error_message = "Each image list must contain at least 1 items"
+  }
 }
 
